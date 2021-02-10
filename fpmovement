@@ -9,6 +9,8 @@ public class PlayerMovement : MonoBehaviour
     public float speed = 12f;
     public float gravity = -9.81f;
     public float jumpHeight = 3f;
+    public float highestLook = 90;
+    public float lowestLook = -90;
 
     public Transform GroundCheck;
     public float groundDistance = 0.4f;
@@ -23,9 +25,9 @@ public class PlayerMovement : MonoBehaviour
     {
         isGrounded = Physics.CheckSphere(GroundCheck.position, groundDistance, groundMask);
 
-        if(isGrounded && velocity.y < 0)
+        if(isGrounded)
         {
-            velocity.y = -2f;
+            velocity.y = 0f;
         }
 
         float x = Input.GetAxis("Horizontal");
@@ -39,7 +41,7 @@ public class PlayerMovement : MonoBehaviour
 
         if(Input.GetButtonDown("Jump") && isGrounded)
         {
-            velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
+            velocity.y = Mathf.Sqrt(jumpHeight * 2f * gravity);
         }
 
 
@@ -51,14 +53,15 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl) && isGrounded)
         {
             speed = 5.0f;
+            console.log("PlayerMovement: Crouch");
         }
         else
         {
             speed = 8.0f;
+            
         }
         direction.y -= gravity * Time.deltaTime;
         controller.Move(direction * Time.deltaTime);
     }
-}
 }
 
