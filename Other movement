@@ -54,10 +54,9 @@ public class SC_FPSController : MonoBehaviour
         if (Input.GetKey(KeyCode.LeftControl) && isGrounded)
         {
             walkSpeed = crouchSpeed
-        }
-        else
+        } else if(Input.GetKey(KeyCode.LeftShift) && isRunning == false)
         {
-            walkSpeed = 7.5f;
+            walkSpeed = runningSpeed;
         }
 
         // Apply gravity. Gravity is multiplied by deltaTime twice (once here, and once below
@@ -65,6 +64,8 @@ public class SC_FPSController : MonoBehaviour
         // as an acceleration (ms^-2)
         if (!characterController.isGrounded)
         {
+            // wouldn't we want to cap the gravity acceleration for like terminal velocity?
+            //also what if theres a glitch where you can keep falling and you can shoot yourself through the ground?
             moveDirection.y -= gravity * Time.deltaTime;
         }
 
